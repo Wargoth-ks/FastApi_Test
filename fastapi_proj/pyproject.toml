@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "fastapi-proj"
+version = "2.6.1"
+description = ""
+authors = ["Wargoth_ks <121107554+Wargoth-ks@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.2"
+jinja2 = "^3.1.2"
+pydantic-settings = "^2.0.3"
+pydantic = {extras = ["email"], version = "^2.4.2"}
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.22"}
+alembic = "^1.12.0"
+asyncpg = "^0.28.0"
+python-multipart = "^0.0.6"
+faker = "^19.11.0"
+prompt-toolkit = "^3.0.39"
+orjson = "^3.9.9"
+redis = "^5.0.1"
+hiredis = "^2.2.3"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+fastapi-mail = "^1.4.1"
+cloudinary = "^1.36.0"
+
+
+[tool.poetry.group.test.dependencies]
+httpx = "^0.25.2"
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+pythonpath = [".", "fastapi_proj"]
+asyncio_mode = "auto"
+addopts = """
+    -ra -q -s
+    --cov=fastapi_proj/
+    --cov-report=html:tests/report/coverage.html
+"""
+log_cli="true"
+log_level="INFO"
