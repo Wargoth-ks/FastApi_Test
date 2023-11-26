@@ -1,13 +1,16 @@
-.PHONY: run_test stop clean logs kill inspect_volumes del_volumes inspect_network migrate revision history-migrations current sql-check downgrade help
+.PHONY: run_test uvicorn_run stop clean logs kill inspect_volumes del_volumes inspect_network migrate revision history-migrations current sql-check downgrade help
 
 include .env
 
-VOLUMES = fastapi_proj_db_data fastapi_proj_cache_data
+VOLUMES = fastapi_proj_db_data fastapi_proj_cache_data fastapi_proj_test_db_data
 
-# Run services + watch
+# Run services
 run_test:
-	docker compose -f compose_test.yml up
-	
+	docker compose -f compose_test.yml up -d && sleep 10 && alembic upgrade head && docker compose -f compose_test.yml logs --follow
+
+uvicorn_run:
+	python app/main.py
+
 # Stop services
 stop:
 	docker compose -f compose_test.yml down
@@ -18,7 +21,7 @@ clean:
 
 # Logging containers
 logs:
-	docker-compose logs --follow
+	docker compose -f compose_test.yml logs --follow
 
 # Kill services
 kill:
@@ -67,12 +70,13 @@ downgrade:
 
 # Generate fake contacts
 fake_contacts:
-	python fastapi_proj/source/services/faker_contacts.py
+	python app/source/services/faker_contacts.py
 
 # Show help
 help:
 	@echo ""
-	@echo "run - Docker Compose up + watch"
+	@echo "run_test - Docker Compose test up + watch"
+	@echo "run_uvicorn - Run uvicorn server"
 	@echo "stop - Docker Compose down"
 	@echo "clean - Docker clean system"
 	@echo "logs - Logging services"

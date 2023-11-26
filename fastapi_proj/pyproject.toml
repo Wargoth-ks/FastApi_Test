@@ -1,9 +1,8 @@
 [tool.poetry]
 name = "fastapi-proj"
-version = "2.6.1"
+version = "2.7.1"
 description = ""
-authors = ["Wargoth_ks <121107554+Wargoth-ks@users.noreply.github.com>"]
-readme = "README.md"
+authors = ["Wargoth_ks <warheart1986@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -33,16 +32,20 @@ pytest = "^7.4.3"
 pytest-asyncio = "^0.21.1"
 pytest-cov = "^4.1.0"
 
+
+[tool.poetry.group.dev.dependencies]
+sphinx = "^7.2.6"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-pythonpath = [".", "fastapi_proj"]
+pythonpath = [".", "app"]
 asyncio_mode = "auto"
 addopts = """
     -ra -q -s
-    --cov=fastapi_proj/
+    --cov=app/
     --cov-report=html:tests/report/coverage.html
 """
 log_cli="true"
